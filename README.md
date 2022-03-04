@@ -6,3 +6,4 @@
 4. `docker push 874575230586.dkr.ecr.us-east-1.amazonaws.com/tdbot:latest`
 
 
+This is currently working but theres an absolute fuck ton of manual shit in here. Id like to change that.

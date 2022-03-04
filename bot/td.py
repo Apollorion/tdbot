@@ -1,20 +1,12 @@
 import tda
 from tda.orders.equities import equity_buy_limit
-
-account_id_dict = {
-    "234356621": "joey",
-    "277081322": "pressf",
-    "237984987": "julian",
-    "237985046": "emery",
-    "237985101": "spencer",
-    "237985133": "sawyer"
-}
+import os
 
 
 class td:
 
     def __init__(self):
-        self.accounts = {}
+        self.account = {}
         self.symbol_cache = {}
 
         path = "/token/token.json"
@@ -25,15 +17,18 @@ class td:
             print("failed to auth")
             self.c = tda.auth.client_from_manual_flow(key, "https://apollorion.com/callback", path)
 
-    def get_accounts(self):
+    def get_account(self, account_id):
         accounts_response = self.c.get_accounts()
+        found = False
         if accounts_response.status_code == 200:
             for account in accounts_response.json():
-                # dont add pressf to the dict
-                if account_id_dict[account["securitiesAccount"]["accountId"]] == "pressf":
-                    continue
+                if account["securitiesAccount"]["accountId"] == str(account_id):
+                    found = True
+                    self.account = account["securitiesAccount"]
 
-                self.accounts[account_id_dict[account["securitiesAccount"]["accountId"]]] = account["securitiesAccount"]
+            if not found:
+                raise Exception(f"could not find account {account_id}")
+
         else:
             raise Exception("failed to get accounts")
 
@@ -56,12 +51,16 @@ class td:
         else:
             raise Exception("failed to get quote")
 
-    def get_available_cash(self, account) -> float:
-        current = self.accounts[account]["currentBalances"]["cashAvailableForTrading"]
-        projected = self.accounts[account]["projectedBalances"]["cashAvailableForTrading"]
+    def get_available_cash(self) -> float:
+        current = self.account["currentBalances"]["cashAvailableForTrading"]
+        projected = self.account["projectedBalances"]["cashAvailableForTrading"]
         return min([current, projected])
 
-    def place_order(self, symbol, amount_to_order, limit_price, account_id):
-        print(f"ordering {amount_to_order} of {symbol} for {account_id_dict[account_id]} at ${limit_price} each")
-        order = equity_buy_limit(symbol, amount_to_order, limit_price).build()
-        self.c.place_order(account_id, order)
+    def place_order(self, symbol, amount_to_order, limit_price):
+        account_id = self.account["accountId"]
+        print(f"ordering {amount_to_order} of {symbol} for {account_id} at ${limit_price} each")
+        if "WEIGHTS" in os.environ:
+            order = equity_buy_limit(symbol, amount_to_order, limit_price).build()
+            self.c.place_order(account_id, order)
+        else:
+            print("SIMULATING ORDER")

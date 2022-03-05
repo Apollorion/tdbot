@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_event_rule" "event_rule" {
-  name                = "td-bot-daily"
+  name                = "${local.name_prefix}td-bot-daily"
   schedule_expression = "cron(0 5 ? * MON-FRI *)"
   role_arn            = aws_iam_role.tdbot.arn
 }

@@ -13,6 +13,13 @@ terraform {
 
 locals {
   secrets_arn = var.secret_arn != null ? var.secret_arn : aws_secretsmanager_secret.tdbot[0].arn
+  name_prefix = var.name_prefix == "" ? "" : "${var.name_prefix}-"
+}
+
+variable "name_prefix" {
+  description = "name prefix for resources"
+  type = string
+  default = ""
 }
 
 variable "weights" {

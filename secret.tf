@@ -1,6 +1,6 @@
 resource "aws_secretsmanager_secret" "tdbot" {
   count       = var.secret_arn != null ? 0 : 1
-  name_prefix = "tdbot"
+  name_prefix = "${local.name_prefix}tdbot"
 }
 
 output "secret_arn" {

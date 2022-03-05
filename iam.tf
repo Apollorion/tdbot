@@ -33,12 +33,12 @@ data "aws_iam_policy_document" "tdbot" {
 }
 
 resource "aws_iam_role" "tdbot" {
-  name               = "tdbot-role"
+  name               = "${local.name_prefix}tdbot-role"
   assume_role_policy = data.aws_iam_policy_document.tdbot_assume_role.json
 }
 
 resource "aws_iam_role_policy" "tdbot" {
-  name   = "tdbot-policy"
+  name   = "${local.name_prefix}tdbot-policy"
   role   = aws_iam_role.tdbot.id
   policy = data.aws_iam_policy_document.tdbot.json
 }

@@ -92,13 +92,14 @@ Once the above 5 steps are complete, you will be good to go. You can change weig
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_account_id"></a> [account\_id](#input\_account\_id) | TD Ameritrade account ID | `string` | n/a | yes |
-| <a name="input_fargate_arn"></a> [fargate\_arn](#input\_fargate\_arn) | Fargate cluster ARN | `string` | n/a | yes |
-| <a name="input_security_groups"></a> [security\_groups](#input\_security\_groups) | security groups to assign to task | `list(string)` | n/a | yes |
-| <a name="input_subnets"></a> [subnets](#input\_subnets) | subnets to launch the task into | `list(string)` | n/a | yes |
-| <a name="input_weights"></a> [weights](#input\_weights) | securities weights, key = security name, value = weight | `map(number)` | `{}` | no |
+| Name                                                                              | Description | Type           | Default | Required |
+|-----------------------------------------------------------------------------------|-------------|----------------|---------|:--------:|
+| <a name="input_account_id"></a> [account\_id](#input\_account\_id)                | TD Ameritrade account ID | `string`       | n/a     | yes |
+| <a name="input_fargate_arn"></a> [fargate\_arn](#input\_fargate\_arn)             | Fargate cluster ARN | `string`       | n/a     | yes |
+| <a name="input_security_groups"></a> [security\_groups](#input\_security\_groups) | security groups to assign to task | `list(string)` | n/a     | yes |
+| <a name="input_subnets"></a> [subnets](#input\_subnets)                           | subnets to launch the task into | `list(string)` | n/a     | yes |
+| <a name="input_weights"></a> [weights](#input\_weights)                           | securities weights, key = security name, value = weight | `map(number)`  | `{}`    | no |
+| <a name="input_secrets_arn"></a> [secrets_arn](#secrets\_arn)                     | secrets manager arn to use instead of creating a new one | `string`       | `null`  | no |
 
 ## Outputs
 

@@ -11,6 +11,10 @@ terraform {
   }
 }
 
+locals {
+  secrets_arn = var.secret_arn != null ? var.secret_arn : aws_secretsmanager_secret.tdbot[0].arn
+}
+
 variable "weights" {
   description = "securities weights, key = security name, value = weight"
   type        = map(number)
@@ -35,4 +39,10 @@ variable "subnets" {
 variable "security_groups" {
   description = "security groups to assign to task"
   type        = list(string)
+}
+
+variable "secret_arn" {
+  description = "secrets manager arn to use instead of creating a new one"
+  type        = string
+  default     = null
 }

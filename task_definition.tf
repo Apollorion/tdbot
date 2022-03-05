@@ -38,7 +38,7 @@ resource "aws_ecs_task_definition" "main" {
           },
           {
             name  = "SECRET_ARN"
-            value = aws_secretsmanager_secret.tdbot.arn
+            value = local.secrets_arn
           }
         ]
       }

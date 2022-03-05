@@ -1,6 +1,11 @@
 # TDBot
+[![ci](https://github.com/Apollorion/tdbot/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/Apollorion/tdbot/actions/workflows/ci.yaml)
 
 This is a terraform module that will create a bot in aws that will purchase defined securities based on weights provided to the module automatically.
+
+**Use this bot at your own risk, I do not assume any financial responsibility for your use of this bot.**  
+**The bot is for educational purposes only**  
+**BE SURE YOU READ OVER THE CODE AND UNDERSTAND COMPLETELY HOW THIS BOT WORKS BEFORE USE**
 
 Note: The bot ONLY creates orders, it will not rebalance or sell.
 
@@ -19,8 +24,9 @@ Every night at mightnight EST the bot will:
    - purchases securities from heightes weights to lowest weights
    - buys with a LIMIT of either the ask price or the low price (whichever is cheaper)
 
-## Example
+## How to install
 
+1. Create the required infrastructure
 ```terraform
 module "my_td_bot" {
   source = "github.com/apollorion/tdbot"
@@ -42,6 +48,19 @@ module "my_td_bot" {
   security_groups = ["sg-4444444444"] # SG for the task
 }
 ```
+2. Terraform will output a secret arn, export it as an environment variable locally
+   - `export SECRET_ARN="{secret_arn}"`
+3. Export aws keys locally
+   - `export AWS_DEFAULT_REGION="{region}"` as the region the previous steps secret is in
+   - `export AWS_SECRET_ACCESS_KEY="{secret_access_key}"` as the secret access key with access to the previous steps secret
+   - `export AWS_ACCESS_KEY_ID="{access_key}"` as the access key with access to the previous steps secret
+4. Export your TD Ameritrade account id
+   - `export ACCOUNT_ID="{your_td_account_id}"`
+5. Run the `set_token.sh` script and follow the onscreen prompts
+   - This will configure the secret the task will need to authenticate to td ameritrade
+   - `./scripts/set_token.sh` run from the root of the project.
+
+Once the above 5 steps are complete, you will be good to go. You can change weights at any time and the bot will auto purchase the securities when you have funds.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements

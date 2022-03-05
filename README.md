@@ -99,7 +99,8 @@ Once the above 5 steps are complete, you will be good to go. You can change weig
 | <a name="input_security_groups"></a> [security\_groups](#input\_security\_groups) | security groups to assign to task | `list(string)` | n/a     | yes |
 | <a name="input_subnets"></a> [subnets](#input\_subnets)                           | subnets to launch the task into | `list(string)` | n/a     | yes |
 | <a name="input_weights"></a> [weights](#input\_weights)                           | securities weights, key = security name, value = weight | `map(number)`  | `{}`    | no |
-| <a name="input_secret_arn"></a> [secret\_arn](#secret\_arn)                       | secrets manager arn to use instead of creating a new one | `string`       | `null`  | no |
+| <a name="input_secret_arn"></a> [secret\_arn](#secret\_arn)                       | secrets manager arn to use instead of creating a new one (if used, set var.create_secret to false) | `string`       | `""`  | no |
+| <a name="input_create_secret"></a> [create\_secret](#create\_secret)              | create the secret (should be false if you provide a secret_arn) | `string`       | `""`  | no |
 | <a name="input_name_prefix"></a> [name\_prefix](#name\_prefix)                    | name prefix for resources | `string`       | `""`  | no |
 
 ## Outputs

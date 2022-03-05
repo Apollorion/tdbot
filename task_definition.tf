@@ -10,7 +10,7 @@ locals {
 }
 
 resource "aws_ecs_task_definition" "main" {
-  family                   = "tdbot"
+  family                   = "${local.name_prefix}tdbot"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   cpu                      = 1024
@@ -18,7 +18,7 @@ resource "aws_ecs_task_definition" "main" {
   container_definitions = jsonencode(
     [
       {
-        name      = "tdbot",
+        name      = "${local.name_prefix}tdbot",
         image     = "docker.io/apollorion/tdbot:latest",
         cpu       = 1024,
         memory    = 2048,
@@ -55,7 +55,7 @@ resource "aws_ecs_task_definition" "main" {
 }
 
 resource "aws_cloudwatch_log_group" "tdbot" {
-  name = "/ecs/tdbot/"
+  name = "/ecs/${local.name_prefix}tdbot/"
 
   tags = {
     Environment = "production"

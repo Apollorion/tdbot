@@ -12,14 +12,14 @@ terraform {
 }
 
 locals {
-  secrets_arn = var.secret_arn != null ? var.secret_arn : aws_secretsmanager_secret.tdbot[0].arn
+  secrets_arn = var.create_secret ? one(aws_secretsmanager_secret.tdbot[*].arn) : var.secret_arn
   name_prefix = var.name_prefix == "" ? "" : "${var.name_prefix}-"
 }
 
 variable "name_prefix" {
   description = "name prefix for resources"
-  type = string
-  default = ""
+  type        = string
+  default     = ""
 }
 
 variable "weights" {
@@ -49,7 +49,13 @@ variable "security_groups" {
 }
 
 variable "secret_arn" {
-  description = "secrets manager arn to use instead of creating a new one"
+  description = "secrets manager arn to use instead of creating a new one (if used, set var.create_secret to false)"
   type        = string
-  default     = null
+  default     = ""
+}
+
+variable "create_secret" {
+  description = "create the secret (should be false if you provide a secret_arn)"
+  type        = bool
+  default     = true
 }

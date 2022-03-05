@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "tdbot" {
   statement {
     effect    = "Allow"
     actions   = ["secretsmanager:*"]
-    resources = [aws_secretsmanager_secret.tdbot.arn]
+    resources = [local.secrets_arn]
   }
 }
 
